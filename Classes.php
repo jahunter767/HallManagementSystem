@@ -1,8 +1,7 @@
 <?php
 
 class Issue {
-    private $HMemberIDnum, $classification, $status, $description, $cluster_name, $room_num, $household;
-    private $statuses = array();
+    private $HMemberIDnum, $date, $classification, $status, $description, $cluster_name, $room_num, $household;
     private $issueID;
 
     function __construct($HMemberIDnum, $classification, $description){
@@ -19,16 +18,16 @@ class Issue {
         return $this->classification;
     }
 
-    public function getStatuses(){
-        return $this->statuses;
+    public function changeStatus($status){
+        $this->status = $status;
     }
 
-    public function changeStatus($index, $status){
-
+    public function getDate(){
+        return $this->date;
     }
 
-    public function changeClassification($index, $classification){
-
+    public function changeClassification($classification){
+        $this->classification = $classification;
     }
 
     public function getHMemberIDnum(){
@@ -39,8 +38,8 @@ class Issue {
         return $this->description;
     }
 
-    public function changeDescription($index, $description){
-
+    public function changeDescription($description){
+        $this->description = $description;
     }
 
     public function getClusterName(){
@@ -54,7 +53,7 @@ class Issue {
     public function getHousehold(){
         return $this->household;
     }
-}
+} #class complete
 
 class Appointment {
     private $time, $date, $issueID;
@@ -93,7 +92,121 @@ class MaintenancePersonnel {
     public function getDescription(){
         return $this->description;
     }
+
+    public function getFullNameDescription(){
+        $full_n_des = array($this->full_name, $this->description);
+        return $full_n_des; #This should be imploded to access the values
+    }
+}
+
+
+
+class DataManager {
+    private $conn;
+
+    public function __construct($host, $username, $password, $db_name){
+        $this->conn = new PDO("mysql:host=$host;dbname=$db_name;charset=utf8mb4", $username, $password);
+    }
+
+    public function retrieveResidents(){
+
+    }
+
+    public function retrieveIssues(){
+
+    }
+
+    public function dataBank(){
+        return $this->conn;
+    }
+}
+
+class HallMember {
+    private $IDnum;
+    
+    public function __construct($IDnum){
+        $this->IDnum = $IDnum;
+    }
+
+    public function getIDnum(){
+        return $this->IDnum;
+    }
+}
+
+class Resident extends HallMember{
+    private $cluster_name;
+    private $household;
+    private $room_num;
+
+    public function __construct($IDnum, $cluster_name, $household, $room_num){
+        parent::__construct($IDnum);
+        $this->cluster_name = $cluster_name;
+        $this->household = $household;
+        $this->room_num = $room_num;
+    }
+
+    public function getClusterName(){
+        return $this->cluster_name;
+    }
+
+    public function getRoomNum(){
+        return $this->room_num;
+    }
+
+    public function getHousehold(){
+        return $this->household;
+    }
+}
+
+class ResidentController {
+    private $resident;
+    private $database;
+
+    public function __construct($database){
+        $this->database = $database->dataBank();
+    }
+
+    public function addResident($IDnum, $cluster_name, $household, $room_num){
+        #$resident = new Resident($IDnum, $cluster_name, $household, $room_num);
+        $statement = $this->database->prepare('INSERT INTO resident (IDnum, cluster_name, household, room_num) VALUES (:IDnum, :cluster_name, :household, :room_num);');
+        $statement->bindParam(':IDnum', $IDnum, PDO::PARAM_STR, strlen($IDnum));
+        $statement->bindParam(':cluster_name', $cluster_name, PDO::PARAM_STR, strlen($cluster_name));
+        $statement->bindParam(':household', $household, PDO::PARAM_STR, strlen($household));
+        $statement->bindParam(':room_num', $room_num, PDO::PARAM_STR, strlen($room_num));
+        $statement->execute();
+    }
 }
 
 #$test = new Issue("1234567890", "PLUMBING", "The kitchen pipe is not working");
 #echo $test->getClassification();
+#$test1 = new MaintenancePersonnel("John Brown", "Plumber");
+#$test1->getFullNameDescription();
+
+#$test2 = new Resident('620115555', 'Los Matadores', 'C', '10C4');
+
+#echo $test2->getIDnum();
+#echo $test2->getClusterName();
+#echo $test2->getRoomNum();
+#echo $test2->getHousehold();
+
+$data_store = '';
+
+try {
+    $data_store = new DataManager(getenv('IP'), 'cargill', 'qw$:8Kz%', 'azprestonhall');
+} catch(Exception $e) {
+    die($e->getMessages());
+    echo "<script> alert('Cannot connect to database');</script>";
+}
+
+
+#$resident_controller = new ResidentController($data_store); #THIS WORKS
+
+#$resident_controller->addResident('620125555', 'Shamrock', 'D', '50D4'); #THIS WORKS
+
+/*$data_store = $data_store->dataBank();
+$statement = $data_store->query('SELECT * FROM resident');
+$residents = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+foreach($residents as $person){
+    echo $person['IDnum'] . '\n';
+}*/
