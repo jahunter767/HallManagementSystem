@@ -175,7 +175,86 @@ class ResidentController {
         $statement->bindParam(':room_num', $room_num, PDO::PARAM_STR, strlen($room_num));
         $statement->execute();
     }
+
+    public function getResident($IDnum){
+        $statement = $this->database->prepare('SELECT * FROM resident WHERE IDnum = :IDnum');
+        $statement->bindParam(':IDnum', $IDnum, PDO::PARAM_STR, strlen($IDnum));
+        $statement->execute();
+        #$statement = $this->database->query("SELECT * FROM resident WHERE IDnum = $IDnum");
+        #$statement->setFetchMode(PDO::FETCH_CLASS, 'Resident');
+
+        $resident = $statement->fetchAll(PDO::FETCH_ASSOC);
+        #print_r($resident);
+        #echo '<p>This is the rest of the test</p>';
+        foreach($resident as $r){
+            $this->resident = new Resident($r['IDnum'], $r['cluster_name'], $r['household'], $r['room_num']);
+        }
+        #$this->resident = $statement->fetch();
+        #echo $this->resident->getClusterName();
+        return $this->resident;
+    }
 }
+
+class Login {
+    private $username;
+    private $password;
+
+    public function __construct($database){
+        $this->database = $database->dataBank();
+    }
+
+    public function signIN($username, $password){
+        $statement = $this->database->prepare('SELECT username FROM login WHERE username = :username AND password = :password');
+        $statement->bindParam(':username', $username, PDO::PARAM_STR, strlen($username));
+        $statement->bindParam(':password', $password, PDO::PARAM_STR, strlen($password));
+        $statement->execute();
+        $usernames = $statement->fetchAll(PDO::FETCH_ASSOC);
+        
+        $state = FALSE;
+        
+        foreach($usernames as $username){
+            if(isset($username['username'])){
+                $this->username = $username['username'];
+                echo "<script>alert('Logged in successfully!');</script>";
+                $state = TRUE;
+                break;
+            }
+        }
+
+        if(!$state){
+            echo "<script>alert('Username or password incorrect!');</script>";
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+
+    public function addLogin($username, $password){
+
+    }
+}
+
+$data_store = '';
+
+try {
+    $data_store = new DataManager(getenv('IP'), 'cargill', 'qw$:8Kz%', 'azprestonhall');
+} catch(Exception $e) {
+    die($e->getMessages());
+    echo "<script> alert('Cannot connect to database');</script>";
+}
+
+
+###################################################
+##                                               ##
+##                  TEST SITE                    ##
+##                                               ##
+###################################################
+
+$test3 = new Login($data_store);
+
+$test3->signIN('62011767', 'passwor');
+
+#$resident_controller->addResident('620125555', 'Shamrock', 'D', '50D4'); #THIS WORKS
 
 #$test = new Issue("1234567890", "PLUMBING", "The kitchen pipe is not working");
 #echo $test->getClassification();
@@ -189,20 +268,6 @@ class ResidentController {
 #echo $test2->getRoomNum();
 #echo $test2->getHousehold();
 
-$data_store = '';
-
-try {
-    $data_store = new DataManager(getenv('IP'), 'cargill', 'qw$:8Kz%', 'azprestonhall');
-} catch(Exception $e) {
-    die($e->getMessages());
-    echo "<script> alert('Cannot connect to database');</script>";
-}
-
-
-#$resident_controller = new ResidentController($data_store); #THIS WORKS
-
-#$resident_controller->addResident('620125555', 'Shamrock', 'D', '50D4'); #THIS WORKS
-
 /*$data_store = $data_store->dataBank();
 $statement = $data_store->query('SELECT * FROM resident');
 $residents = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -210,3 +275,8 @@ $residents = $statement->fetchAll(PDO::FETCH_ASSOC);
 foreach($residents as $person){
     echo $person['IDnum'] . '\n';
 }*/
+
+
+/*$resident_controller = new ResidentController($data_store); #THIS WORKS
+$person = $resident_controller->getResident('620117676');
+echo $person->getIDnum();*/
