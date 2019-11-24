@@ -18,7 +18,7 @@ class Issue {
         return $this->classification;
     }
 
-    public function changeStatus($status){
+    public function setStatus($status){
         $this->status = $status;
     }
 
@@ -52,6 +52,22 @@ class Issue {
 
     public function getHousehold(){
         return $this->household;
+    }
+
+    public function setDate($date){ #in format "m d Y", ie: "11 24 2019"
+        $this->date = $date;
+    }
+
+    public function setClusterName($cluster_name){
+        $this->cluster_name = $cluster_name;
+    }
+
+    public function setRoomNumber($room_num){
+        $this->room_num = $room_num;
+    }
+
+    public function setHousehold($household){
+        $this->household = $household;
     }
 } #class complete
 
@@ -99,8 +115,6 @@ class MaintenancePersonnel {
     }
 }
 
-
-
 class DataManager {
     private $conn;
 
@@ -119,7 +133,7 @@ class DataManager {
     public function dataBank(){
         return $this->conn;
     }
-}
+} #partially completed
 
 class HallMember {
     private $IDnum;
@@ -131,7 +145,7 @@ class HallMember {
     public function getIDnum(){
         return $this->IDnum;
     }
-}
+} #completed class
 
 class Resident extends HallMember{
     private $cluster_name;
@@ -156,7 +170,7 @@ class Resident extends HallMember{
     public function getHousehold(){
         return $this->household;
     }
-}
+} #completed class
 
 class ResidentController {
     private $resident;
@@ -174,7 +188,7 @@ class ResidentController {
         $statement->bindParam(':household', $household, PDO::PARAM_STR, strlen($household));
         $statement->bindParam(':room_num', $room_num, PDO::PARAM_STR, strlen($room_num));
         $statement->execute();
-    }
+    } #Completed function, adds a resident to the database given the required parameters
 
     public function getResident($IDnum){
         $statement = $this->database->prepare('SELECT * FROM resident WHERE IDnum = :IDnum');
@@ -192,7 +206,7 @@ class ResidentController {
         #$this->resident = $statement->fetch();
         #echo $this->resident->getClusterName();
         return $this->resident;
-    }
+    } #Completed function, returns a resident object when the resident is found in the database given the resident's id number
 }
 
 class Login {
@@ -227,11 +241,85 @@ class Login {
         } else {
             return TRUE;
         }
-    }
+    } #Complete function, returns TRUE if the username and password matches from the database or FALSE if they do not
 
     public function addLogin($username, $password){
 
     }
+}
+
+class IssueController {
+    private $database;
+    private $raw_database;
+
+    public function __construct($database){
+        $this->database = $database->dataBank();
+        $this->raw_database = $database;
+    }
+
+    public function addIssue($HMemberIDnum, $classification, $description){
+        $statement = $this->database->prepare('INSERT INTO issues (HMemberIDnum, classification, date, description, cluster_name, room_num, household) VALUES (:HMemberIDnum, :classification, :date, :description, :cluster_name, :room_num, :household);');
+        $resident_controller = new ResidentController($this->raw_database);
+
+        $resident = $resident_controller->getResident($HMemberIDnum);
+
+
+        $statement->bindParam(':HMemberIDnum', $HMemberIDnum, PDO::PARAM_STR, strlen($HMemberIDnum));
+        $statement->bindParam(':classification', $classification, PDO::PARAM_STR, strlen($classification));
+        $date = date("m d Y"); #in format "m d Y", ie: "11 24 2019"
+        $statement->bindParam(':date', $date, PDO::PARAM_STR, strlen($date));
+        $statement->bindParam(':description', $description, PDO::PARAM_STR, strlen($description));
+
+        $cluster_name = $resident->getClusterName();
+        $room_num = $resident->getRoomNum();
+        $household = $resident->getHousehold();
+
+        $statement->bindParam(':cluster_name', $cluster_name, PDO::PARAM_STR, strlen($cluster_name));
+        $statement->bindParam(':room_num', $room_num, PDO::PARAM_STR, strlen($room_num));
+        $statement->bindParam(':household', $household, PDO::PARAM_STR, strlen($household));
+        $statement->execute();
+    }
+
+    public function addIssueBasic($description, $classification){
+        $statement = $this->database->prepare('INSERT INTO issues (description, classification, date) VALUES (:description, :classification, :date);');
+        $date = date("m d Y"); #in format "m d Y", ie: "11 24 2019"
+        $statement->bindParam(':date', $date, PDO::PARAM_STR, strlen($date));
+        $statement->bindParam(':description', $description, PDO::PARAM_STR, strlen($description));
+        $statement->bindParam(':classification', $classification, PDO::PARAM_STR, strlen($classification));
+        $statement->execute();
+    }
+
+    public function viewIssuesByHallMemberID($HMemberIDnum){
+        $statement = $this->database->prepare('SELECT date, classification, status, description, cluster_name, room_num, household FROM issues WHERE HMemberIDnum = :HMemberIDnum');
+        $statement->bindParam(':HMemberIDnum', $HMemberIDnum, PDO::PARAM_STR, strlen($HMemberIDnum));
+        $statement->execute();
+        $residents = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        /*foreach($residents as $resident){
+            echo $resident['date'] . " " . $resident['classification'] . " " . $resident['status'] . " " . $resident['description'] . " " . $resident[cluster_name] . " " . $resident['room_num'] . " " . $resident['household'];
+        }*/
+        return $residents;
+    } #returns an associative list of issues reported by a hall member using the hall member's ID number 
+
+    public function viewIssuesByCluster($cluster_name){
+        
+    }
+
+    public function viewIssuesByStatus($status){
+
+    }
+
+    public function viewIssuesByStatusANDHallMemberID($status, $HMemberIDnum){
+
+    }
+
+    public function viewIssuesByClassification($classification){
+
+    }
+}
+
+class Feedback {
+    
 }
 
 $data_store = '';
@@ -243,16 +331,22 @@ try {
     echo "<script> alert('Cannot connect to database');</script>";
 }
 
-
 ###################################################
 ##                                               ##
 ##                  TEST SITE                    ##
 ##                                               ##
 ###################################################
 
-$test3 = new Login($data_store);
+#$test4 = new IssueController($data_store);
 
-$test3->signIN('62011767', 'passwor');
+#$test4->viewIssuesByHallMemberID('620117676');
+#$test4->addIssueBasic('The water fountain is not pushing water at reasonable pressure', 'INFRASTRUCTURE');
+#$test4->addIssue('620117676', 'PLUMBING', 'The pipe in the kitch keeps running even though it is turned off');
+
+
+/*$test3 = new Login($data_store);
+
+$test3->signIN('62011767', 'passwor');*/
 
 #$resident_controller->addResident('620125555', 'Shamrock', 'D', '50D4'); #THIS WORKS
 
