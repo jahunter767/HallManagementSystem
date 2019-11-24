@@ -6,8 +6,8 @@ X    DataManager
     Admin View
     Hall Management View
     Resident View
-    Slot
-    Report
+X    Slot
+X    Report
     Washroom Schedule
     View Controller
 X    Resident Controller

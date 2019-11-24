@@ -250,23 +250,6 @@ class Login {
     }
 }
 
-class Machine{
-    private $status; //to state whether Machine is working or not, 1 being working 0 not
-    
-    public function changeStatus(){
-        if ($status == 1){
-            $status = 0;
-        }   
-        else {
-            $status = 1;
-        }     
-    }
-
-    public function MachineStatus(){
-        return $this->status;
-    }    
-
-}
 
 class IssueController {
     private $database;
@@ -341,6 +324,98 @@ class IssueController {
 class Feedback {
     
 }
+
+class Slot {
+    private $slotID;
+    private $date;
+    private $startTime;
+    private $endTime;
+    private $residentID;
+
+    public function getSlotID(){
+        return $this->slotID;
+    }
+
+    public function getDate(){
+        return $this->date;
+    }
+
+    public function getStart(){
+        return $this->startTime;
+    }
+
+    public function getEnd(){
+        return $this->endTime;
+    }
+
+    public function setSlotID($slotID){
+        $this->slotID = $slotID;
+    }
+
+    public function setStart($time){
+        $this->$startTime = $time;
+    }
+
+    public function setEnd($time){
+        $this->$endTime = $time;
+    }
+
+    public function setDate($date){
+        $this->$date = $date;
+    }
+
+    public function setResidentID($id){
+        $this->$residentID = $id;
+    }
+
+    public function getResidentID(){
+        return $this->$residentID;
+    }
+    
+}
+
+class Machine{
+    private $machineID;
+    private $machineType;
+    public $schedule;
+
+    public function getMachineID(){
+        return $this->$machineID;
+    }
+
+    public function getType(){
+        return $this->$machineType;
+    }
+
+    public function scheduleSlot(){
+
+    }
+
+    public function setMachineID($id){
+        $this->$machineID = $id;
+    }
+
+    public function liberateSlot($date, $residentID){
+
+    }     
+
+}
+
+class Report {
+    private $startDate;
+    private $endDate;
+    private $issues;
+    private $residents;
+    private $admin;
+    private $feedback_list;
+    private $maintenance_schedule; //not finished :MaintenanceScheduler
+    
+    public function viewStartDate(){
+        
+    }
+}
+
+
 
 $data_store = '';
 
