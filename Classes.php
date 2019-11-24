@@ -149,6 +149,27 @@ class PrestonHallMember {
     }
 } #completed class
 
+class Admin extends PrestonHallMember{
+    private $position;
+    private $full_name;
+
+    public function __construct($IDnum, $cluster_name, $room_num, $position, $full_name){
+        parent::__construct($IDnum);
+        $this->cluster_name = $cluster_name;
+        $this->room_num = $room_num;
+        $this->$position = $position;
+        $this->$full_name = $full_name;
+    }
+
+    public function getPosition(){
+        return $this->$position;
+    }
+
+    public function getFullName(){
+        return $this->$full_name;
+    }
+}
+
 class Resident extends PrestonHallMember{
     private $cluster_name;
     private $household;
@@ -174,6 +195,27 @@ class Resident extends PrestonHallMember{
     }
 } #completed class
 
+class AdminController {
+    private $admin;
+
+  /*  public function __construct($database){
+        $this->database = $database->dataBank();
+    }*/
+
+    public function addAdmin($admin){
+        #$resident = new Resident($IDnum, $cluster_name, $household, $room_num);
+       /* $statement = $this->database->prepare('INSERT INTO resident (IDnum, cluster_name, household, room_num) VALUES (:IDnum, :cluster_name, :household, :room_num);');
+        $statement->bindParam(':IDnum', $IDnum, PDO::PARAM_STR, strlen($IDnum));
+        $statement->bindParam(':cluster_name', $cluster_name, PDO::PARAM_STR, strlen($cluster_name));
+        $statement->bindParam(':household', $household, PDO::PARAM_STR, strlen($household));
+        $statement->bindParam(':room_num', $room_num, PDO::PARAM_STR, strlen($room_num));
+        $statement->execute(); */
+    }
+    
+    public function deleteAdmin($admin){
+
+    }
+}
 class ResidentController {
     private $resident;
     private $database;
@@ -250,7 +292,18 @@ class Login {
     }
 }
 
+class WashroomScheduleController {
+    private $washroom_schedule;
 
+    public function addWashroomSchedule($washroom_schedule){
+
+    }
+
+    public function deleteWashroomSchedule($washroom_schedule){
+        
+    }
+
+}
 class IssueController {
     private $database;
     private $raw_database;
@@ -411,8 +464,33 @@ class Report {
     private $maintenance_schedule; //not finished :MaintenanceScheduler
     
     public function viewStartDate(){
+        return $startDate;
+    }
+
+    public function viewEndDate(){
+        return $startDate;
+    }
+
+    public function issuesAndFeedback(){
+
+       /* while (count($array2) < 10 ) {
+            $array2[] = '$issues' . '$feedback_list' . '\n';
+        }*/
+
+    }
+
+    public function issuesAndCluster(){
+
+    }
+    
+    public function issuesAndMSchedule(){
         
     }
+
+    public function feedbackAndResidents(){
+        
+    }
+
 }
 
 
