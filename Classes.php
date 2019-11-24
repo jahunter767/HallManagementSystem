@@ -135,6 +135,8 @@ class DataManager {
     }
 } #partially completed
 
+
+
 class PrestonHallMember {
     private $IDnum;
     
@@ -246,6 +248,24 @@ class Login {
     public function addLogin($username, $password){
 
     }
+}
+
+class Machine{
+    private $status; //to state whether Machine is working or not, 1 being working 0 not
+    
+    public function changeStatus(){
+        if ($status == 1){
+            $status = 0;
+        }   
+        else {
+            $status = 1;
+        }     
+    }
+
+    public function MachineStatus(){
+        return $this->status;
+    }    
+
 }
 
 class IssueController {

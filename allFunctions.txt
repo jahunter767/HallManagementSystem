@@ -1,3 +1,7 @@
+KEY: 
+X = method has been added to classes.php
+F = method is finished completely
+
 X    DataManager
     Admin View
     Hall Management View
@@ -18,7 +22,7 @@ X    Resident
 X    Maintenance Personnel
     Maintenance Scheduler
 X    Appointment
-    Machine
+X    Machine
 
     Additional classes:
 
