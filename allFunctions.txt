@@ -1,0 +1,26 @@
+X    DataManager
+    Admin View
+    Hall Management View
+    Resident View
+    Slot
+    Report
+    Washroom Schedule
+    View Controller
+X    Resident Controller
+x    Issue
+    Admin Controller
+X    Preston Hall Member
+    Washroom Schedule Controller
+    Maintenance Scheduler Controller
+x    Feedback
+    Admin
+X    Resident
+X    Maintenance Personnel
+    Maintenance Scheduler
+X    Appointment
+    Machine
+
+    Additional classes:
+
+    Login
+    IssueController

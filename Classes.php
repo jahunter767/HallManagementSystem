@@ -135,7 +135,7 @@ class DataManager {
     }
 } #partially completed
 
-class HallMember {
+class PrestonHallMember {
     private $IDnum;
     
     public function __construct($IDnum){
@@ -147,7 +147,7 @@ class HallMember {
     }
 } #completed class
 
-class Resident extends HallMember{
+class Resident extends PrestonHallMember{
     private $cluster_name;
     private $household;
     private $room_num;
