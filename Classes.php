@@ -510,9 +510,9 @@ try {
 ##                                               ##
 ###################################################
 
-#$test4 = new IssueController($data_store);
+$test4 = new IssueController($data_store);
 
-#$test4->viewIssuesByHallMemberID('620117676');
+$test4->viewIssuesByHallMemberID('620117676');
 #$test4->addIssueBasic('The water fountain is not pushing water at reasonable pressure', 'INFRASTRUCTURE');
 #$test4->addIssue('620117676', 'PLUMBING', 'The pipe in the kitch keeps running even though it is turned off');
 
