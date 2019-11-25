@@ -135,8 +135,6 @@ class DataManager {
     }
 } #partially completed
 
-
-
 class PrestonHallMember {
     private $IDnum;
     
@@ -150,23 +148,34 @@ class PrestonHallMember {
 } #completed class
 
 class Admin extends PrestonHallMember{
+    private $cluster_name;
+    private $room_num;
     private $position;
     private $full_name;
+    
 
     public function __construct($IDnum, $cluster_name, $room_num, $position, $full_name){
         parent::__construct($IDnum);
         $this->cluster_name = $cluster_name;
         $this->room_num = $room_num;
-        $this->$position = $position;
-        $this->$full_name = $full_name;
+        $this->position = $position;
+        $this->full_name = $full_name;
     }
 
     public function getPosition(){
-        return $this->$position;
+        return $this->position;
     }
 
     public function getFullName(){
-        return $this->$full_name;
+        return $this->full_name;
+    }
+
+    public function getClusterName(){
+        return $this->cluster_name;
+    }
+
+    public function getRoomNum(){
+        return $this->room_num;
     }
 }
 
@@ -197,25 +206,37 @@ class Resident extends PrestonHallMember{
 
 class AdminController {
     private $admin;
+    private $database;
 
-  /*  public function __construct($database){
+    public function __construct($database){
         $this->database = $database->dataBank();
-    }*/
+    }
 
-    public function addAdmin($admin){
-        #$resident = new Resident($IDnum, $cluster_name, $household, $room_num);
-       /* $statement = $this->database->prepare('INSERT INTO resident (IDnum, cluster_name, household, room_num) VALUES (:IDnum, :cluster_name, :household, :room_num);');
-        $statement->bindParam(':IDnum', $IDnum, PDO::PARAM_STR, strlen($IDnum));
-        $statement->bindParam(':cluster_name', $cluster_name, PDO::PARAM_STR, strlen($cluster_name));
-        $statement->bindParam(':household', $household, PDO::PARAM_STR, strlen($household));
-        $statement->bindParam(':room_num', $room_num, PDO::PARAM_STR, strlen($room_num));
-        $statement->execute(); */
+    public function addAdmin($id_num, $position, $full_name){
+        $statement = $this->database->prepare('INSERT INTO admin (id_num, position, full_name) VALUES (:id_num, :position, :full_name);');
+        $statement->bindParam(':id_num', $id_num, PDO::PARAM_STR, strlen($id_num));
+        $statement->bindParam(':position', $position, PDO::PARAM_STR, strlen($position));
+        $statement->bindParam(':full_name', $full_name, PDO::PARAM_STR, strlen($full_name));
+        $statement->execute();
     }
     
-    public function deleteAdmin($admin){
+    public function deleteAdmin(){
 
     }
+
+    public function getAdmin($id_num){
+        $statement = $this->database->prepare('SELECT * FROM admin WHERE id_num = :id_num');
+        $statement->bindParam(':id_num', $id_num, PDO::PARAM_STR, strlen($id_num));
+        $statement->execute();
+        $admin = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach($admin as $a){
+            $this->admin = new Admin($a['id_num'], $a['cluster_name'], $a['room_num'], $a['position'], $a['full_name']);
+        }
+        return $this->admin;
+    } #Completed function, returns a admin object when the admin is found in the database given the admin's id number
 }
+
 class ResidentController {
     private $resident;
     private $database;
@@ -287,8 +308,12 @@ class Login {
         }
     } #Complete function, returns TRUE if the username and password matches from the database or FALSE if they do not
 
-    public function addLogin($username, $password){
-
+    public function addLogin($username, $password){ #Use admin or resident controller to retrieve the admin or resident object then return the ID number of the object. A resident or admin has to be in the system before registering with a password
+        $statement = $this->database->prepare('INSERT INTO login (username, password) VALUES (:username, :password)');
+        $statement->bindParam(':username', $username, PDO::PARAM_STR, strlen($username));
+        $statement->bindParam(':password', $password, PDO::PARAM_STR, strlen($password));
+        $statement->execute();
+        echo "<script>alert('Username and password saved!');</script>";
     }
 }
 
@@ -304,6 +329,7 @@ class WashroomScheduleController {
     }
 
 }
+
 class IssueController {
     private $database;
     private $raw_database;
@@ -346,7 +372,7 @@ class IssueController {
     }
 
     public function viewIssuesByHallMemberID($HMemberIDnum){
-        $statement = $this->database->prepare('SELECT date, classification, status, description, cluster_name, room_num, household FROM issues WHERE HMemberIDnum = :HMemberIDnum');
+        $statement = $this->database->prepare('SELECT issueID, date, classification, status, description, cluster_name, room_num, household FROM issues WHERE HMemberIDnum = :HMemberIDnum');
         $statement->bindParam(':HMemberIDnum', $HMemberIDnum, PDO::PARAM_STR, strlen($HMemberIDnum));
         $statement->execute();
         $residents = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -375,7 +401,51 @@ class IssueController {
 }
 
 class Feedback {
-    
+    private $date;
+    private $issueID;
+    private $comment;
+    private $read;
+
+    public function __construct($comment, $issueID){
+        $this->comment = $comment;
+        $this->issueID = $issueID;
+        $this->read = FALSE;
+        $this->date = date("m d Y"); #in format "m d Y", ie: "11 24 2019"
+    }
+
+    public function getDate(){
+        $date = explode(':', $this->date);
+        return $date;
+    } #returns a list that contains dates when different comments wherer appended
+
+    public function getIssueID(){
+        return $this->issueID;
+    }
+
+    public function markAsRead(){
+        $this->read = !$this->read;
+    }
+
+    public function isRead(){
+        return $this->read;
+    }
+
+    public function getComment(){
+        $comment = explode(':', $this->comment);
+        return $comment;
+    } #returns a list that contains comments made by resident and admin
+}
+
+class FeedbackController {
+    private $database;
+
+    public function __construct($database){
+        $this->database = $database->dataBank();
+    }
+
+    public function addFeedback($issueID, $comment, $HMemberIDnum){
+        
+    }
 }
 
 class Slot {
@@ -510,9 +580,23 @@ try {
 ##                                               ##
 ###################################################
 
-$test4 = new IssueController($data_store);
+#$test7 = new Login($data_store);
+#$test7->addLogin('500004432', 'admin');
 
-$test4->viewIssuesByHallMemberID('620117676');
+#$test6 = new AdminController($data_store);
+#$test6->addAdmin('500004432', 'Resident Advisor', 'John Doe');
+
+#$admin = $test6->getAdmin('500004432');
+
+#echo $admin->getPosition() . " " . $admin->getFullName();
+#$test5 = new ResidentController($data_store);
+#$resident = $test5->getResident('620117676');
+
+#echo $resident->getIDnum();
+
+#$test4 = new IssueController($data_store);
+
+#$test4->viewIssuesByHallMemberID('620117676');
 #$test4->addIssueBasic('The water fountain is not pushing water at reasonable pressure', 'INFRASTRUCTURE');
 #$test4->addIssue('620117676', 'PLUMBING', 'The pipe in the kitch keeps running even though it is turned off');
 
