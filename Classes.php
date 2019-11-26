@@ -423,6 +423,22 @@ class Feedback {
         return $this->sender;
     }
 
+    public function setDate($date){
+        $this->date = $date;
+    }
+
+    public function setFeedbackID($feedbackID){
+        $this->feedbackID = $feedbackID;
+    }
+
+    public function setSender($sender){
+        $this->sender = $sender;
+    }
+
+    public function setRead($read){
+        $this->read = $read;
+    }
+
     public function getDate(){
         return $this->date;
     } 
@@ -447,7 +463,7 @@ class Feedback {
 class FeedbackController {
     private $database;
     private $raw_database;
-    private $feedback;
+    private $feedback = [];
 
     public function __construct($database){
         $this->database = $database->dataBank();
@@ -503,6 +519,23 @@ class FeedbackController {
         $statement->bindParam(':date', $date, PDO::PARAM_STR, strlen($date));
         $statement->execute();
         echo "<script> alert('Feedback saved!');</script>";
+    }
+
+    public function loadFeedbackFromIssue($issueID){
+        $issueID = filter_var($issueID, FILTER_SANITIZE_NUMBER_INT);
+
+        $statement = $this->database->query('SELECT feedback_date.date AS date, feedback_comments.comment AS comment, feedback_comments.sender AS sender, feedback_comments.isRead AS isRead, feedback_comments.feedbackID AS feedbackID FROM feedback_date JOIN feedback_comments ON (feedback_date.feedbackID = feedback_comments.feedbackID AND feedback_comments.issueID = ' . $issueID . ')');
+        $feedbacks = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach($feedbacks as $f){
+            $feedbackObj = new Feedback($f['comment'], $issueID);
+            $feedbackObj->setDate($f['date']);
+            $feedbackObj->setFeedbackID($f['feedbackID']);
+            $feedbackObj->setSender($f['sender']);
+            $feedbackObj->setRead($f['isRead']);
+            
+            $this->feedback[] = $feedbackObj;
+        }
     }
 }
 
@@ -638,9 +671,12 @@ try {
 ##                                               ##
 ###################################################
 
-#$test8 = new FeedbackController($data_store);
+
+$test8 = new FeedbackController($data_store);
 #$test8->addFeedback(3, 'I have received no response about the leaking pipe in my household kitchen', '620117676');
 #$test8->addFeedback(3, 'Apologies, we will send a plumber in 3 days', '500004432');
+
+$test8->showFeedbackFromIssue(3);
 
 #$test7 = new Login($data_store);
 #$test7->addLogin('500004432', 'admin');

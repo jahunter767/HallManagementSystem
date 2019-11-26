@@ -53,7 +53,7 @@ CREATE TABLE `feedback` (
   `issueID` int(11) NOT NULL,
   `feedbackID` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`feedbackID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,7 +62,7 @@ CREATE TABLE `feedback` (
 
 LOCK TABLES `feedback` WRITE;
 /*!40000 ALTER TABLE `feedback` DISABLE KEYS */;
-INSERT INTO `feedback` VALUES (1,1),(1,2),(2,3);
+INSERT INTO `feedback` VALUES (1,1),(1,2),(2,3),(3,4),(3,5),(3,6),(3,7);
 /*!40000 ALTER TABLE `feedback` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -77,7 +77,8 @@ CREATE TABLE `feedback_comments` (
   `issueID` int(11) NOT NULL,
   `feedbackID` int(11) NOT NULL,
   `comment` varchar(250) NOT NULL,
-  `sender` varchar(30) NOT NULL DEFAULT 'ANONYMOUS'
+  `sender` varchar(30) NOT NULL DEFAULT 'ANONYMOUS',
+  `isRead` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -87,7 +88,7 @@ CREATE TABLE `feedback_comments` (
 
 LOCK TABLES `feedback_comments` WRITE;
 /*!40000 ALTER TABLE `feedback_comments` DISABLE KEYS */;
-INSERT INTO `feedback_comments` VALUES (1,1,'Request Received','ANONYMOUS'),(1,2,'Thank you, the plunger was delivered','ANONYMOUS'),(2,3,'The plumber had attended to the issue','ANONYMOUS');
+INSERT INTO `feedback_comments` VALUES (1,1,'Request Received','ANONYMOUS',0),(1,2,'Thank you, the plunger was delivered','ANONYMOUS',0),(2,3,'The plumber had attended to the issue','ANONYMOUS',0),(3,6,'I have received no response about the leaking pipe in my household kitchen','620117676',0),(3,7,'Apologies, we will send a plumber in 3 days','John Doe',0);
 /*!40000 ALTER TABLE `feedback_comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -111,7 +112,7 @@ CREATE TABLE `feedback_date` (
 
 LOCK TABLES `feedback_date` WRITE;
 /*!40000 ALTER TABLE `feedback_date` DISABLE KEYS */;
-INSERT INTO `feedback_date` VALUES (1,1,'11 25 2019'),(1,2,'11 26 2019'),(2,3,'12 01 2019');
+INSERT INTO `feedback_date` VALUES (1,1,'11 25 2019'),(1,2,'11 26 2019'),(2,3,'12 01 2019'),(3,6,'11 25 2019'),(3,7,'11 25 2019');
 /*!40000 ALTER TABLE `feedback_date` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -205,4 +206,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-25 14:26:48
+-- Dump completed on 2019-11-25 23:55:47
