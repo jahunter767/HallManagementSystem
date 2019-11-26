@@ -264,14 +264,20 @@ class ResidentController {
 
         $resident = $statement->fetchAll(PDO::FETCH_ASSOC);
         #print_r($resident);
-        #echo '<p>This is the rest of the test</p>';
-        foreach($resident as $r){
-            $this->resident = new Resident($r['IDnum'], $r['cluster_name'], $r['household'], $r['room_num']);
+
+        if($resident === []){
+            echo "<script> alert('User not found');</script>";
+            return FALSE;
+        } else {
+            foreach($resident as $r){
+                $this->resident = new Resident($r['IDnum'], $r['cluster_name'], $r['household'], $r['room_num']);
+            }
         }
+        #echo '<p>This is the rest of the test</p>';
         #$this->resident = $statement->fetch();
         #echo $this->resident->getClusterName();
         return $this->resident;
-    } #Completed function, returns a resident object when the resident is found in the database given the resident's id number
+    } #Completed function, returns a resident object when the resident is found in the database given the resident's id number or FALSE if the resident is not found
 }
 
 class Login {
@@ -674,6 +680,10 @@ try {
     die($e->getMessages());
     echo "<script> alert('Cannot connect to database');</script>";
 }
+
+#$residentControll = new ResidentController($data_store);
+    
+#$test_out = $residentControll->getResident('720117676');
 
 ###################################################
 ##                                               ##
