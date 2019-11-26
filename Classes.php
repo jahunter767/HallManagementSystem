@@ -401,10 +401,12 @@ class IssueController {
 }
 
 class Feedback {
+    private $feedbackID;
     private $date;
     private $issueID;
     private $comment;
     private $read;
+    private $sender;
 
     public function __construct($comment, $issueID){
         $this->comment = $comment;
@@ -413,10 +415,17 @@ class Feedback {
         $this->date = date("m d Y"); #in format "m d Y", ie: "11 24 2019"
     }
 
+    public function getFeedbackID(){
+        return $this->feedbackID;
+    }
+    
+    public function getSender(){
+        return $this->sender;
+    }
+
     public function getDate(){
-        $date = explode(':', $this->date);
-        return $date;
-    } #returns a list that contains dates when different comments wherer appended
+        return $this->date;
+    } 
 
     public function getIssueID(){
         return $this->issueID;
@@ -431,20 +440,69 @@ class Feedback {
     }
 
     public function getComment(){
-        $comment = explode(':', $this->comment);
-        return $comment;
-    } #returns a list that contains comments made by resident and admin
+        return $this->comment;
+    }
 }
 
 class FeedbackController {
     private $database;
+    private $raw_database;
+    private $feedback;
 
     public function __construct($database){
         $this->database = $database->dataBank();
+        $this->raw_database = $database;
     }
 
     public function addFeedback($issueID, $comment, $HMemberIDnum){
+        $statement = $this->database->prepare('INSERT INTO feedback (issueID) VALUES (:issueID);');
+        $statement->bindParam(':issueID', $issueID, PDO::PARAM_INT);
+        $statement->execute();
+
+        $statement = $this->database->query('SELECT * FROM feedback ORDER BY feedbackID DESC LIMIT 1;');
+        $feedback = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+
+        $feedback_id = 0;
+
+        foreach($feedback as $f){
+            $feedback_id = $f['feedbackID'];
+        }
         
+        $statement = $this->database->prepare('INSERT INTO feedback_comments (issueID, feedbackID, comment, sender) VALUES (:issueID, :feedback_id, :comment, :feedback_sender)');
+        $statement->bindParam(':issueID', $issueID, PDO::PARAM_INT);
+        $statement->bindParam(':feedback_id', $feedback_id, PDO::PARAM_INT);
+        $statement->bindParam(':comment', $comment, PDO::PARAM_STR, strlen($comment));
+        
+
+        $feedback_sender = "NOT FOUND";
+
+        try{
+            $PHallMember = new ResidentController($this->raw_database);
+            if($PHallMember->getResident($HMemberIDnum)=== NULL){
+                throw new Exception("Not a resident");
+            } else {
+                $PHallMember = $PHallMember->getResident($HMemberIDnum);
+                $feedback_sender = $PHallMember->getIDnum();
+            }
+        } catch(Exception $e) {
+            $PHallMember = new AdminController($this->raw_database);
+            $PHallMember = $PHallMember->getAdmin($HMemberIDnum);
+            $feedback_sender = $PHallMember->getFullName();
+        } /*finally {
+            echo "Sender: " . $feedback_sender;
+        }*/
+
+        $statement->bindParam(':feedback_sender', $feedback_sender, PDO::PARAM_STR, strlen($feedback_sender));
+        $statement->execute();
+
+        $statement = $this->database->prepare('INSERT INTO feedback_date (issueID, feedbackID, date) VALUES (:issueID, :feedback_id, :date)');
+        $date = date("m d Y"); #in format "m d Y", ie: "11 24 2019"
+        $statement->bindParam(':issueID', $issueID, PDO::PARAM_INT);
+        $statement->bindParam(':feedback_id', $feedback_id, PDO::PARAM_INT);
+        $statement->bindParam(':date', $date, PDO::PARAM_STR, strlen($date));
+        $statement->execute();
+        echo "<script> alert('Feedback saved!');</script>";
     }
 }
 
@@ -580,6 +638,10 @@ try {
 ##                                               ##
 ###################################################
 
+#$test8 = new FeedbackController($data_store);
+#$test8->addFeedback(3, 'I have received no response about the leaking pipe in my household kitchen', '620117676');
+#$test8->addFeedback(3, 'Apologies, we will send a plumber in 3 days', '500004432');
+
 #$test7 = new Login($data_store);
 #$test7->addLogin('500004432', 'admin');
 
@@ -631,3 +693,5 @@ foreach($residents as $person){
 /*$resident_controller = new ResidentController($data_store); #THIS WORKS
 $person = $resident_controller->getResident('620117676');
 echo $person->getIDnum();*/
+
+#$chckRes = new AdminController($data_store);
