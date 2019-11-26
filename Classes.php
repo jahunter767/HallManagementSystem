@@ -452,7 +452,8 @@ class Feedback {
     }
 
     public function isRead(){
-        return $this->read;
+        $r = ($this->read === 1)?  TRUE: FALSE;
+        return $r;
     }
 
     public function getComment(){
@@ -463,11 +464,12 @@ class Feedback {
 class FeedbackController {
     private $database;
     private $raw_database;
-    private $feedback = [];
+    private $feedback;
 
     public function __construct($database){
         $this->database = $database->dataBank();
         $this->raw_database = $database;
+        $this->$feedback = [];
     }
 
     public function addFeedback($issueID, $comment, $HMemberIDnum){
@@ -536,6 +538,14 @@ class FeedbackController {
             
             $this->feedback[] = $feedbackObj;
         }
+    }
+
+    public function sendFeedback(){
+        return $this->feedback;
+    }
+
+    public function clearFeedback(){
+        $this->feedback = [];
     }
 }
 
@@ -672,11 +682,11 @@ try {
 ###################################################
 
 
-$test8 = new FeedbackController($data_store);
+#$test8 = new FeedbackController($data_store);
 #$test8->addFeedback(3, 'I have received no response about the leaking pipe in my household kitchen', '620117676');
 #$test8->addFeedback(3, 'Apologies, we will send a plumber in 3 days', '500004432');
 
-$test8->showFeedbackFromIssue(3);
+#$test8->showFeedbackFromIssue(3);
 
 #$test7 = new Login($data_store);
 #$test7->addLogin('500004432', 'admin');
