@@ -54,7 +54,7 @@ if($_SESSION['isLogged'] === FALSE){
   <div class="section">
     <div class="function-section">
       <div class="functions">
-        <a href="#" class="function-card w-inline-block">
+        <a href="view-all-issues.html" class="function-card w-inline-block">
           <h3 class="white funcard">View All Issues</h3>
         </a>
         <a href="add-user.html" class="function-card w-inline-block">
@@ -63,7 +63,7 @@ if($_SESSION['isLogged'] === FALSE){
         <a href="#" class="function-card w-inline-block">
           <h3 class="white funcard">Update issue Progress</h3>
         </a>
-        <a href="#" class="function-card w-inline-block">
+        <a href="view-feedback.html" class="function-card w-inline-block">
           <h3 class="white funcard">View Feedback</h3>
         </a>
         <a href="#" class="function-card w-inline-block">
