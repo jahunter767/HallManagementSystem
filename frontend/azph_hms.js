@@ -12,9 +12,8 @@ $(document).ready(function(){
                     residentID: resident_id,
                     residentPass: resident_password
                 }
-            }
-            ).done(function(response){
-                console.log(response);
+            }).done(function(response){
+                //console.log(response);
                 if(response === "<script> alert('User not found');</script>"){
                     $('#alertbox').html(response);
                     $('.w-form-fail').show();
@@ -28,8 +27,7 @@ $(document).ready(function(){
                     //$('#alertbox').html(response);
                     $('.w-form-fail').show();
                 }*/
-            }
-            ).fail(function(response){
+            }).fail(function(){
                 alert('Something went wrong with a request to the server');
             });
         });
@@ -52,20 +50,34 @@ $(document).ready(function(){
     });*/
 
     $('#submit-issue').click(function(event){
-
-    });
-
-    //DOWN HERE
-    $('.dropdown-toggle').click(function(){
-        $('.w-dropdown-list').show();
-        $('.dropdown-toggle').addClass('w-dropdown-toggle');
-        $('.w-dropdown-toggle').removeClass('dropdown-toggle');
-    });
-
-    $('.w-dropdown-toggle').click(function(){
-        console.log('hih');
-        $('.w-dropdown-list').hide();
-        $('.w-dropdown-toggle').addClass('dropdown-toggle');
-        $('.dropdown-toggle').removeClass('w-dropdown-toggle');
+        event.preventDefault();
+        let clust = $('#cluster').val();
+        let cat = $('#classification').val();
+        let desc = $('#Issue-description').val();
+        let idN = $('#IDapp').val();
+        /*console.log(clust);
+        console.log(cat);*/
+        //console.log(desc);
+        //console.log(idN);
+        $.ajax("backend/res-sub-issue.php", {
+            type: "POST",
+            data: {
+                residentID: idN,
+                cluster: clust,
+                classification: cat,
+                description: desc
+            } 
+        }).done(function(response){
+            console.log(response);
+            if(response === "FAILED"){
+                $('.w-form-fail').show();
+            } else {
+                $('.w-form-done').show();
+                window.location.replace("../old-home.php");
+            }
+        }).fail(function(){
+            alert('Something went wrong with a request to the server');
+            $('.w-form-fail').show();
+        });
     });
 });

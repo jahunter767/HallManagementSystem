@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 class Issue {
     private $HMemberIDnum, $date, $classification, $status, $description, $cluster_name, $room_num, $household;
     private $issueID;
@@ -682,6 +682,7 @@ try {
     die($e->getMessages());
     echo "<script> alert('Cannot connect to database');</script>";
 }
+
 
 #$residentControll = new ResidentController($data_store);
     
