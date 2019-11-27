@@ -6,7 +6,7 @@ $(document).ready(function(){
             let resident_id = $('#name').val();
             let resident_password = $('#email').val();
 
-            $.ajax("backend/azph_hms.php", {
+            $.ajax("backend/login.php", {
                 type: "POST",
                 data: {
                     residentID: resident_id,
@@ -14,16 +14,32 @@ $(document).ready(function(){
                 }
             }
             ).done(function(response){
-                //console.log(response);
+                console.log(response);
                 if(response === "<script> alert('User not found');</script>"){
+                    $('#alertbox').html(response);
                     $('.w-form-fail').show();
-                } else {
-                    $('body').html(response);
-                }
+                } if(response === "<script>alert('Logged in successfully!');</script>") {
+                    $('#alertbox').html(response);
+                    window.location.replace("confirmation.php");
+                } if(response === "<script>alert('Username or password incorrect!');</script>"){
+                    $('#alertbox').html(response);
+                    $('.w-form-fail').show();
+                } /*else {
+                    //$('#alertbox').html(response);
+                    $('.w-form-fail').show();
+                }*/
             }
             ).fail(function(response){
                 alert('Something went wrong with a request to the server');
             });
         });
+    });
+
+    $('#continue-button').click(function(){
+        window.location.replace("old-home.php");
+    });
+
+    $('.sign-out').click(function(){
+        window.location.replace("index.php");
     });
 });

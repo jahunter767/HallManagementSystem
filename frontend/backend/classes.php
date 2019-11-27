@@ -312,6 +312,8 @@ class Login {
         } else {
             return TRUE;
         }
+
+        #return $state;
     } #Complete function, returns TRUE if the username and password matches from the database or FALSE if they do not
 
     public function addLogin($username, $password){ #Use admin or resident controller to retrieve the admin or resident object then return the ID number of the object. A resident or admin has to be in the system before registering with a password

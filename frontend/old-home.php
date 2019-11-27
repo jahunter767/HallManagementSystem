@@ -1,10 +1,23 @@
+<?php
+session_start();
+require 'backend/classes.php';
+#echo "<script>console.log('From old home: " . $_SESSION['isLogged'] ."')</script>";
+if($_SESSION['isLogged'] === FALSE){
+  header('Location: index.php');
+}
+?>
 <!DOCTYPE html>
 <!--  This site was created in Webflow. http://www.webflow.com  -->
 <!--  Last Published: Sun Nov 24 2019 22:40:25 GMT+0000 (Coordinated Universal Time)  -->
 <html data-wf-page="5dd89354578bab02bf18ce40" data-wf-site="5dd89354578babc32818ce3f">
 <head>
   <meta charset="utf-8">
-  <title>Az preston Hall Management System</title>
+  <title>AZ preston Hall Management System</title>
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+  <script src="azph_hms.js" type="text/javascript"></script>
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <meta content="Webflow" name="generator">
   <link href="css/normalize.css" rel="stylesheet" type="text/css">
@@ -20,7 +33,7 @@
 <body>
   <div data-collapse="medium" data-animation="default" data-duration="400" class="navbar w-nav">
     <div class="w-container">
-      <nav role="navigation" class="w-nav-menu"><a href="#" class="navbtn w-button">Notifications</a></nav><a href="#" class="nav-link w-nav-link">Home</a><a href="#" class="nav-link w-nav-link">Sign Out</a><a href="#" class="nav-link w-nav-link">Resident</a>
+      <nav role="navigation" class="w-nav-menu"><a href="#" class="navbtn w-button">Notifications</a></nav><a href="#" class="nav-link w-nav-link">Home</a><a href="#" class="nav-link w-nav-link">Admin</a><a class="nav-link w-nav-link sign-out">Sign Out</a>
       <div class="w-nav-button">
         <div class="w-icon-nav-menu"></div>
       </div>

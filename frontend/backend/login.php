@@ -1,6 +1,6 @@
 <?php
-require 'classes.php';
 session_start();
+require 'classes.php';
 if(isset($_POST['residentID']) && isset($_POST['residentPass'])){
     #NEEDS SANITIZATION
     $residentID = $_POST['residentID'];
@@ -13,7 +13,8 @@ if(isset($_POST['residentID']) && isset($_POST['residentPass'])){
         return FALSE;
     } else {
         $login = new Login($data_store);
-        $login->signIN($residentID, $residentPass);
+        $_SESSION['isLogged'] = $login->signIN($residentID, $residentPass);
+        #echo "<script>console.log('" . $_SESSION['isLogged'] ."')</script>";
     }
     /*$login = new Login($data_store);
     $_SESSION['isLogged'] = $login->signIN($residentID, $residentPass);*/
