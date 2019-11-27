@@ -1,3 +1,10 @@
+<?php
+  session_start();
+  require 'backend/classes.php';
+  if($_SESSION['isLogged'] === FALSE){
+  header('Location: index.php');
+}
+?>
 <!DOCTYPE html>
 <!--  This site was created in Webflow. http://www.webflow.com  -->
 <!--  Last Published: Tue Nov 26 2019 09:23:06 GMT+0000 (Coordinated Universal Time)  -->
@@ -33,7 +40,7 @@
     </div>
   </div>
   <input id="track-idNum" style="position: absolute; left: 80px; top: 68px; width: 250px" type="text" class="w-input" maxlength="256" placeholder="id number" required="">
-  <input id="track-issue" style="position: absolute; left: 38%" type="submit" value="Submit" data-wait="Please wait..." class="btn-filled blue w-button">
+  <input id="track-issue-1" style="position: absolute; left: 38%" type="submit" value="Submit" data-wait="Please wait..." class="btn-filled blue w-button">
   <div class="hero-section" style="position: relative; top: 50px">
     <div class="form-columns w-row">
       <div id="show-issues-1" class="w-col w-col-6">

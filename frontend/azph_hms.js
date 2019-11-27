@@ -46,10 +46,10 @@ $(document).ready(function(){
     });
 
     $('#track-issue').click(function(){
-        window.location.replace("track-issue.html");
+        window.location.replace("track-issue.php");
     });
 
-    $('#track-issue').click(function(event){
+    $('#track-issue-1').click(function(event){
         event.preventDefault();
         let idnum = $('#track-idNum').val();
         console.log(idnum);
