@@ -1,5 +1,4 @@
 <?php
-session_start();
 class Issue {
     private $HMemberIDnum, $date, $classification, $status, $description, $cluster_name, $room_num, $household;
     private $issueID;
@@ -230,8 +229,17 @@ class AdminController {
         $statement->execute();
         $admin = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        foreach($admin as $a){
+        /*foreach($admin as $a){
             $this->admin = new Admin($a['id_num'], $a['cluster_name'], $a['room_num'], $a['position'], $a['full_name']);
+        }*/
+
+        if($admin === []){
+            echo "<script> alert('User not found');</script>";
+            return FALSE;
+        } else {
+            foreach($admin as $a){
+                $this->admin = new Admin($a['id_num'], $a['cluster_name'], $a['room_num'], $a['position'], $a['full_name']);
+            }
         }
         return $this->admin;
     } #Completed function, returns a admin object when the admin is found in the database given the admin's id number
@@ -296,6 +304,44 @@ class Login {
         $usernames = $statement->fetchAll(PDO::FETCH_ASSOC);
         
         $state = FALSE;
+
+        if(empty($username)){
+            echo "<script>alert('User not found');</script>";
+            return FALSE;
+        }
+        
+        foreach($usernames as $username){
+            if(isset($username['username'])){
+                $this->username = $username['username'];
+                echo "<script>alert('Logged in successfully!');</script>";
+                $state = TRUE;
+                break;
+            }
+        }
+
+        if(!$state){
+            echo "<script>alert('Username or password incorrect!');</script>";
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+
+        #return $state;
+    } #Complete function, returns TRUE if the username and password matches from the database or FALSE if they do not
+
+    public function signInA($username, $password){
+        $statement = $this->database->prepare('SELECT username FROM loginA WHERE username = :username AND password = :password');
+        $statement->bindParam(':username', $username, PDO::PARAM_STR, strlen($username));
+        $statement->bindParam(':password', $password, PDO::PARAM_STR, strlen($password));
+        $statement->execute();
+        $usernames = $statement->fetchAll(PDO::FETCH_ASSOC);
+        
+        $state = FALSE;
+
+        if(empty($username)){
+            echo "<script>alert('User not found');</script>";
+            return FALSE;
+        }
         
         foreach($usernames as $username){
             if(isset($username['username'])){
@@ -383,12 +429,12 @@ class IssueController {
         $statement = $this->database->prepare('SELECT issueID, date, classification, status, description, cluster_name, room_num, household FROM issues WHERE HMemberIDnum = :HMemberIDnum');
         $statement->bindParam(':HMemberIDnum', $HMemberIDnum, PDO::PARAM_STR, strlen($HMemberIDnum));
         $statement->execute();
-        $residents = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $issues = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        /*foreach($residents as $resident){
-            echo $resident['date'] . " " . $resident['classification'] . " " . $resident['status'] . " " . $resident['description'] . " " . $resident[cluster_name] . " " . $resident['room_num'] . " " . $resident['household'];
-        }*/
-        return $residents;
+        foreach($residents as $resident){
+            echo $issues['date'] . " " . $issues['classification'] . " " . $issues['status'] . " " . $issues['description'] . " " . $issues[cluster_name] . " " . $issues['room_num'] . " " . $issues['household'];
+        }
+        return $issues;
     } #returns an associative list of issues reported by a hall member using the hall member's ID number 
 
     public function viewIssuesByCluster($cluster_name){
@@ -754,3 +800,23 @@ $person = $resident_controller->getResident('620117676');
 echo $person->getIDnum();*/
 
 #$chckRes = new AdminController($data_store);
+
+/*$viewIssues = new IssueController($data_store);
+    #SANITATION IF TIME SPARES
+$issues = $viewIssues->viewIssuesByHallMemberID('620117676');
+?>
+    <?php foreach($issues as $issue): ?>
+        <div class="form-card"> <!---->
+          <h1>Track Issue#: <?= $issue['issueID'];?></h1>
+          <h5>Description: <?= $issue['description'];?></h5>
+          <div class="viewissue">
+            <!--<h6>Issue Number:</h6>-->
+            <h6>Date Logged: <?= $issue['date'];?></h6>
+            <h6>Status: <?= $issue['status'];?></h6>
+            <p id="feedback-id" style="display: hidden"></p>
+          </div>
+        </div> <!---->
+      <?php endforeach; ?>
+
+<php
+*/

@@ -58,7 +58,7 @@ if($_SESSION['isLogged'] === TRUE){
     <div class="log-in-card">
       <h3>Welcome to the</h3>
       <h2>AZ Preston Hall Maintenance System</h2>
-      <h5>Log in as a:</h5><a id="adminbtn" href="#loginform" class="btn-filled w-button">Admin</a><a id="residentbtn" href="#loginform" class="btn-filled w-button">Resident</a></div>
+      <h5>Log in as a:</h5><a id="adminbtn" class="btn-filled w-button">Admin</a><a id="residentbtn" href="#loginform" class="btn-filled w-button">Resident</a></div>
   </div><img src="images/buildings-1.png" srcset="images/buildings-1-p-500.png 500w, images/buildings-1-p-800.png 800w, images/buildings-1.png 1137w" sizes="(max-width: 1137px) 100vw, 1137px" alt="" class="image">
   <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.4.1.min.220afd743d.js" type="text/javascript" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 

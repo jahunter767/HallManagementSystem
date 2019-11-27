@@ -45,6 +45,27 @@ $(document).ready(function(){
         window.location.replace("log-issue.php");
     });
 
+    $('#track-issue').click(function(){
+        window.location.replace("track-issue.html");
+    });
+
+    $('#track-issue').click(function(event){
+        event.preventDefault();
+        let idnum = $('#track-idNum').val();
+        console.log(idnum);
+        $.ajax("backend/show-issues.php", {
+            type: "POST",
+            data: {
+                IDnum: idnum
+            }
+        }).done(function(response){
+            alert(response);
+            $('#show-issues-1').html(response);
+        }).fail(function(){
+            alert('Something went wrong with the server');
+        });
+    });
+
     /*$('.w-nav-menu').click(function(){
         $('.w-nav-menu').show();
     });*/
@@ -78,6 +99,37 @@ $(document).ready(function(){
         }).fail(function(){
             alert('Something went wrong with a request to the server');
             $('.w-form-fail').show();
+        });
+    });
+
+    $('#adminbtn').click(function(){
+        $('.log-in-card').hide();
+        $('.submit-button').click(function(event){
+            event.preventDefault();
+            let admin_id = $('#name').val();
+            let admin_password = $('#email').val();
+            //console.log('hello');
+            $.ajax("backend/login-admin.php", {
+                type: "POST",
+                data: {
+                    adminID: admin_id,
+                    adminPass: admin_password
+                }
+            }).done(function(response){
+                console.log(response);
+                if(response === "<script> alert('User not found');</script>"){
+                    $('#alertbox').html(response);
+                    $('.w-form-fail').show();
+                } if(response === "<script>alert('Logged in successfully!');</script>") {
+                    $('#alertbox').html(response);
+                    window.location.replace("../admin.php");
+                } if(response === "<script>alert('Username or password incorrect!');</script>"){
+                    $('#alertbox').html(response);
+                    $('.w-form-fail').show();
+                }
+            }).fail(function(){
+                alert('Something went wrong with a request to the server');
+            });
         });
     });
 });

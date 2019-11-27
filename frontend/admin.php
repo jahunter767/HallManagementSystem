@@ -1,3 +1,11 @@
+<?php
+session_start();
+require 'backend/classes.php';
+if($_SESSION['isLogged'] === FALSE){
+  header('Location: index.php');
+}
+?>
+
 <!DOCTYPE html>
 <!--  This site was created in Webflow. http://www.webflow.com  -->
 <!--  Last Published: Sun Nov 24 2019 22:40:25 GMT+0000 (Coordinated Universal Time)  -->
@@ -5,6 +13,11 @@
 <head>
   <meta charset="utf-8">
   <title>Admin</title>
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+  <script src="azph_hms.js" type="text/javascript"></script>
   <meta content="Admin" property="og:title">
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <meta content="Webflow" name="generator">
@@ -21,7 +34,7 @@
 <body>
   <div data-collapse="medium" data-animation="default" data-duration="400" class="navbar w-nav">
     <div class="w-container">
-      <nav role="navigation" class="w-nav-menu"><a href="#" class="navbtn w-button">Notifications</a></nav><a href="index.html" class="nav-link w-nav-link">Home</a><a href="admin.html" class="nav-link w-nav-link w--current">Admin</a><a href="old-home.html" class="nav-link w-nav-link">Sign Out</a>
+      <nav role="navigation" class="w-nav-menu"><a href="#" class="navbtn w-button">Notifications</a></nav><a href="index.html" class="nav-link w-nav-link">Home</a><a href="admin.html" class="nav-link w-nav-link w--current">Admin</a><a href="index.php" class="nav-link w-nav-link">Sign Out</a>
       <div class="w-nav-button">
         <div class="w-icon-nav-menu"></div>
       </div>
