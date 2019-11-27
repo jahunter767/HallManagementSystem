@@ -44,7 +44,7 @@ if($_SESSION['isLogged'] === FALSE){
       <div class="w-col w-col-6"><img src="images/reading-2.png" srcset="images/reading-2-p-500.png 500w, images/reading-2.png 587w" sizes="(max-width: 479px) 67vw, (max-width: 767px) 587px, (max-width: 804px) 73vw, 41vw" alt=""></div>
       <div class="w-col w-col-6">
         <div class="hero-card">
-          <h1>Az Preston Hall Maintenance System</h1>
+          <h1>AZ Preston Hall Maintenance System</h1>
           <h3>&gt;&gt; General Updates</h3>
           <h5>&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore...”</h5><a href="#" class="btn-outline w-button">Button Text</a></div>
       </div>
@@ -53,7 +53,7 @@ if($_SESSION['isLogged'] === FALSE){
   <div class="section">
     <div class="function-section">
       <div class="functions">
-        <a href="confirmation.html" class="function-card w-inline-block">
+        <a id="log-issue" class="function-card w-inline-block">
           <h3 class="white funcard">Log new issue</h3>
         </a>
         <a href="#" class="function-card w-inline-block">

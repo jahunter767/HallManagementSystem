@@ -42,4 +42,30 @@ $(document).ready(function(){
     $('.sign-out').click(function(){
         window.location.replace("index.php");
     });
+
+    $('#log-issue').click(function(){
+        window.location.replace("log-issue.php");
+    });
+
+    /*$('.w-nav-menu').click(function(){
+        $('.w-nav-menu').show();
+    });*/
+
+    $('#submit-issue').click(function(event){
+
+    });
+
+    //DOWN HERE
+    $('.dropdown-toggle').click(function(){
+        $('.w-dropdown-list').show();
+        $('.dropdown-toggle').addClass('w-dropdown-toggle');
+        $('.w-dropdown-toggle').removeClass('dropdown-toggle');
+    });
+
+    $('.w-dropdown-toggle').click(function(){
+        console.log('hih');
+        $('.w-dropdown-list').hide();
+        $('.w-dropdown-toggle').addClass('dropdown-toggle');
+        $('.dropdown-toggle').removeClass('w-dropdown-toggle');
+    });
 });
