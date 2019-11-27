@@ -54,24 +54,25 @@ if($_SESSION['isLogged'] === FALSE){
   <div class="section">
     <div class="function-section">
       <div class="functions">
-        <div class="function-card">
+        <a href="#" class="function-card w-inline-block">
           <h3 class="white funcard">View All Issues</h3>
-        </div>
-        <div class="function-card">
+        </a>
+        <a href="add-user.html" class="function-card w-inline-block">
+          <h3 class="white funcard">Add User</h3>
+        </a>
+        <a href="#" class="function-card w-inline-block">
           <h3 class="white funcard">Update issue Progress</h3>
-        </div>
-        <div class="function-card">
+        </a>
+        <a href="#" class="function-card w-inline-block">
           <h3 class="white funcard">View Feedback</h3>
-        </div>
-        <div class="function-card">
+        </a>
+        <a href="#" class="function-card w-inline-block">
           <h3 class="white funcard">Schedule<br>Maintenance</h3>
-        </div>
-        <div class="function-card">
-          <h3 class="white funcard">Weekly Overview</h3>
-        </div>
-        <div class="function-card">
+        </a>
+        <a href="#" class="function-card w-inline-block">
           <h3 class="white funcard">Generate Reports</h3>
-        </div>
+        </a>
+      </div>
       </div>
     </div>
   </div>
