@@ -134,7 +134,7 @@ CREATE TABLE `issues` (
   `room_num` varchar(4) DEFAULT NULL,
   `household` varchar(1) DEFAULT NULL,
   PRIMARY KEY (`issueID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -143,7 +143,7 @@ CREATE TABLE `issues` (
 
 LOCK TABLES `issues` WRITE;
 /*!40000 ALTER TABLE `issues` DISABLE KEYS */;
-INSERT INTO `issues` VALUES (1,'11 24 2019',NULL,'ROOM FIXTURES','PENDING','The visitors bathroom has no plunger','The Hall',NULL,NULL),(2,'11 24 2019',NULL,'INFRASTRUCTURE','PENDING','The water fountain is not pushing water at reasonable pressure','The Hall',NULL,NULL),(3,'11 24 2019','620117676','PLUMBING','PENDING','The pipe in the kitch keeps running even though it is turned off','Los Matadores','10B1','B');
+INSERT INTO `issues` VALUES (1,'11 24 2019',NULL,'ROOM FIXTURES','PENDING','The visitors bathroom has no plunger','The Hall',NULL,NULL),(2,'11 24 2019',NULL,'INFRASTRUCTURE','PENDING','The water fountain is not pushing water at reasonable pressure','The Hall',NULL,NULL),(3,'11 24 2019','620117676','PLUMBING','PENDING','The pipe in the kitch keeps running even though it is turned off','Los Matadores','10B1','B'),(4,'11 27 2019','620117676','ELECTRICAL','PENDING','The light bulb in the bathroom is not working','Los Matadores','10B1','B'),(5,'11 27 2019','620117679','APPLIANCE','PENDING','The microwave stopped working','La Maison','20A4','A'),(6,'11 27 2019','620125555','FURNITURE','PENDING','The closet door fell off','Shamrock','50D4','D');
 /*!40000 ALTER TABLE `issues` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -167,8 +167,32 @@ CREATE TABLE `login` (
 
 LOCK TABLES `login` WRITE;
 /*!40000 ALTER TABLE `login` DISABLE KEYS */;
-INSERT INTO `login` VALUES ('500004432','admin'),('620117676','password');
+INSERT INTO `login` VALUES ('620117676','password');
 /*!40000 ALTER TABLE `login` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `loginA`
+--
+
+DROP TABLE IF EXISTS `loginA`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `loginA` (
+  `username` varchar(10) NOT NULL,
+  `password` varchar(8) NOT NULL,
+  PRIMARY KEY (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `loginA`
+--
+
+LOCK TABLES `loginA` WRITE;
+/*!40000 ALTER TABLE `loginA` DISABLE KEYS */;
+INSERT INTO `loginA` VALUES ('500004432','admin');
+/*!40000 ALTER TABLE `loginA` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -206,4 +230,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-26  3:42:05
+-- Dump completed on 2019-11-27  7:01:03
