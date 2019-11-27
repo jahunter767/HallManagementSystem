@@ -60,7 +60,7 @@ if($_SESSION['isLogged'] === FALSE){
         <a href="add-user.html" class="function-card w-inline-block">
           <h3 class="white funcard">Add User</h3>
         </a>
-        <a href="#" class="function-card w-inline-block">
+        <a href="update-issue.html" class="function-card w-inline-block">
           <h3 class="white funcard">Update issue Progress</h3>
         </a>
         <a href="view-feedback.html" class="function-card w-inline-block">
