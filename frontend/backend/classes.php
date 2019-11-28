@@ -437,6 +437,13 @@ class IssueController {
         return $issues;
     } #returns an associative list of issues reported by a hall member using the hall member's ID number 
 
+    public function updateIssue($issueID, $status){
+        $statement = $this->database->prepare('UPDATE issues SET status = :status WHERE issueID = :issueID;');
+        $statement->bindParam(':status', $status, PDO::PARAM_STR, strlen($status));
+        $statement->bindParam(':issueID', $issueID, PDO::PARAM_STR, strlen($issueID));
+        $statement->execute();
+    }
+
     public function viewIssuesByCluster($cluster_name){
         
     }

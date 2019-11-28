@@ -188,4 +188,25 @@ $(document).ready(function () {
             alert('Something went wrong with a request to the server');
         });
     });
+
+    $('#submit-update-issue').click(function(event){
+        event.preventDefault();
+        let issueNum = $('#ID-number-update').val();
+        let stat = $('#current-status').val();
+        console.log(issueNum);
+        console.log(stat);
+        $.ajax("update-issue.php", {
+            type: "POST",
+            data: {
+                issueID: issueNum,
+                status: stat
+            }
+        }).done(function(){
+            $('.w-form-done').show();
+            alert('Feedback added!')
+        }).fail(function(){
+            alert('Something went wrong with the server');
+            $('.w-form-fail').show();
+        });
+    });
 });

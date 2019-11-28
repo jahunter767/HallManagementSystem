@@ -89,7 +89,7 @@ if($_SESSION['isLogged'] === FALSE){
           <h3 class="white funcard">Log new issue</h3>
         </a>
         <a id="track-issue" class="function-card w-inline-block">
-          <h3 class="white funcard">Track issue Progress</h3>
+          <h3 class="white funcard">View All Your Issues</h3>
         </a>
         <a href="#" class="function-card w-inline-block">
           <h3 class="white funcard">View All Issues</h3>
