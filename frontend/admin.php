@@ -34,7 +34,7 @@ if($_SESSION['isLogged'] === FALSE){
 <body>
   <div data-collapse="medium" data-animation="default" data-duration="400" class="navbar w-nav">
     <div class="w-container">
-      <nav role="navigation" class="w-nav-menu"><a href="#" class="navbtn w-button">Notifications</a></nav><a href="index.html" class="nav-link w-nav-link">Home</a><a href="admin.html" class="nav-link w-nav-link w--current">Admin</a><a href="index.php" class="nav-link w-nav-link">Sign Out</a>
+      <nav role="navigation" class="w-nav-menu"><a href="#" class="navbtn w-button">Notifications</a></nav><a href="admin.php" class="nav-link w-nav-link">Home</a><a href="admin.html" class="nav-link w-nav-link w--current">Admin</a><a href="index.php" class="nav-link w-nav-link">Sign Out</a>
       <div class="w-nav-button">
         <div class="w-icon-nav-menu"></div>
       </div>
@@ -54,7 +54,7 @@ if($_SESSION['isLogged'] === FALSE){
   <div class="section">
     <div class="function-section">
       <div class="functions">
-        <a href="view-all-issues.html" class="function-card w-inline-block">
+        <a href="view-all-issues.php" class="function-card w-inline-block">
           <h3 class="white funcard">View All Issues</h3>
         </a>
         <a href="add-user.html" class="function-card w-inline-block">

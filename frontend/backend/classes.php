@@ -452,6 +452,25 @@ class IssueController {
     public function viewIssuesByClassification($classification){
 
     }
+
+    public function viewAllIssues(){
+        $statement = $this->database->query('SELECT * FROM issues;');
+        $issues = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach($issues as $issue){
+            echo "<div class=\"hero-card\">";
+            echo "<h3>Issue ID: ". $issue['issueID'] ."</h3>";
+            echo "<h6>Date: ". $issue['date'] ."</h6>";
+            echo "<h6>Hall Memeber ID number: ". $issue['HMemberIDnum'] ."</h6>";
+            echo "<h6>Classification: ". $issue['classification'] ."</h6>";
+            echo "<h6>Status: ". $issue['status'] ."</h6>";
+            echo "<h6>Description: ". $issue['description'] ."</h6>";
+            echo "<h6>Cluster name: ". $issue['cluster_name'] ."</h6>";
+            echo "<h6>Room number: ". $issue['room_num'] ."</h6>";
+            echo "<h6>Household: ". $issue['household'] ."</h6>";
+            echo "</div>";
+        }
+    }
 }
 
 class Feedback {

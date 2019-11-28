@@ -1,3 +1,11 @@
+<?php
+session_start();
+require 'backend/classes.php';
+if($_SESSION['isLogged'] === FALSE){
+  header('Location: index.php');
+}
+?>
+
 <!DOCTYPE html>
 <!--  This site was created in Webflow. http://www.webflow.com  -->
 <!--  Last Published: Wed Nov 27 2019 21:03:53 GMT+0000 (Coordinated Universal Time)  -->
@@ -5,6 +13,11 @@
 <head>
   <meta charset="utf-8">
   <title>View All Issues</title>
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+  <script src="azph_hms.js" type="text/javascript"></script>
   <meta content="View All Issues" property="og:title">
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <meta content="Webflow" name="generator">
@@ -33,11 +46,12 @@
         <div class="hero-card">
           <h2>AZ Preston Hall Management System</h2>
           <h5>View All User Issues</h5>
-          <div class="hero-card">
-            <h3>Issue ID:</h3>
-            <h6>Status:</h6>
-            <h6>Description:</h6>
-          </div>
+          
+            <?php
+              $view_all = new IssueController($data_store);
+              $view_all->viewAllIssues();
+            ?>
+          
         </div>
       </div>
       <div class="w-col w-col-1"></div>
