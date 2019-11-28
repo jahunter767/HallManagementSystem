@@ -53,7 +53,7 @@ CREATE TABLE `feedback` (
   `issueID` int(11) NOT NULL,
   `feedbackID` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`feedbackID`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,7 +62,7 @@ CREATE TABLE `feedback` (
 
 LOCK TABLES `feedback` WRITE;
 /*!40000 ALTER TABLE `feedback` DISABLE KEYS */;
-INSERT INTO `feedback` VALUES (1,1),(1,2),(2,3),(3,4),(3,5),(3,6),(3,7);
+INSERT INTO `feedback` VALUES (1,1),(1,2),(2,3),(3,4),(3,5),(3,6),(3,7),(7,8);
 /*!40000 ALTER TABLE `feedback` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -88,7 +88,7 @@ CREATE TABLE `feedback_comments` (
 
 LOCK TABLES `feedback_comments` WRITE;
 /*!40000 ALTER TABLE `feedback_comments` DISABLE KEYS */;
-INSERT INTO `feedback_comments` VALUES (1,1,'Request Received','ANONYMOUS',0),(1,2,'Thank you, the plunger was delivered','ANONYMOUS',0),(2,3,'The plumber had attended to the issue','ANONYMOUS',0),(3,6,'I have received no response about the leaking pipe in my household kitchen','620117676',0),(3,7,'Apologies, we will send a plumber in 3 days','John Doe',0);
+INSERT INTO `feedback_comments` VALUES (1,1,'Request Received','ANONYMOUS',0),(1,2,'Thank you, the plunger was delivered','ANONYMOUS',0),(2,3,'The plumber had attended to the issue','ANONYMOUS',0),(3,6,'I have received no response about the leaking pipe in my household kitchen','620117676',0),(3,7,'Apologies, we will send a plumber in 3 days','John Doe',0),(7,8,'Our food started to rot','620117676',0);
 /*!40000 ALTER TABLE `feedback_comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -112,7 +112,7 @@ CREATE TABLE `feedback_date` (
 
 LOCK TABLES `feedback_date` WRITE;
 /*!40000 ALTER TABLE `feedback_date` DISABLE KEYS */;
-INSERT INTO `feedback_date` VALUES (1,1,'11 25 2019'),(1,2,'11 26 2019'),(2,3,'12 01 2019'),(3,6,'11 25 2019'),(3,7,'11 25 2019');
+INSERT INTO `feedback_date` VALUES (1,1,'11 25 2019'),(1,2,'11 26 2019'),(2,3,'12 01 2019'),(3,6,'11 25 2019'),(3,7,'11 25 2019'),(7,8,'11 27 2019');
 /*!40000 ALTER TABLE `feedback_date` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -134,7 +134,7 @@ CREATE TABLE `issues` (
   `room_num` varchar(4) DEFAULT NULL,
   `household` varchar(1) DEFAULT NULL,
   PRIMARY KEY (`issueID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -143,7 +143,7 @@ CREATE TABLE `issues` (
 
 LOCK TABLES `issues` WRITE;
 /*!40000 ALTER TABLE `issues` DISABLE KEYS */;
-INSERT INTO `issues` VALUES (1,'11 24 2019',NULL,'ROOM FIXTURES','PENDING','The visitors bathroom has no plunger','The Hall',NULL,NULL),(2,'11 24 2019',NULL,'INFRASTRUCTURE','PENDING','The water fountain is not pushing water at reasonable pressure','The Hall',NULL,NULL),(3,'11 24 2019','620117676','PLUMBING','PENDING','The pipe in the kitch keeps running even though it is turned off','Los Matadores','10B1','B'),(4,'11 27 2019','620117676','ELECTRICAL','PENDING','The light bulb in the bathroom is not working','Los Matadores','10B1','B'),(5,'11 27 2019','620117679','APPLIANCE','PENDING','The microwave stopped working','La Maison','20A4','A'),(6,'11 27 2019','620125555','FURNITURE','PENDING','The closet door fell off','Shamrock','50D4','D');
+INSERT INTO `issues` VALUES (1,'11 24 2019',NULL,'ROOM FIXTURES','RESOLVED','The visitors bathroom has no plunger','The Hall',NULL,NULL),(2,'11 24 2019',NULL,'INFRASTRUCTURE','PENDING','The water fountain is not pushing water at reasonable pressure','The Hall',NULL,NULL),(3,'11 24 2019','620117676','PLUMBING','PENDING','The pipe in the kitch keeps running even though it is turned off','Los Matadores','10B1','B'),(4,'11 27 2019','620117676','ELECTRICAL','PENDING','The light bulb in the bathroom is not working','Los Matadores','10B1','B'),(5,'11 27 2019','620117679','APPLIANCE','PENDING','The microwave stopped working','La Maison','20A4','A'),(6,'11 27 2019','620125555','FURNITURE','FIXING','The closet door fell off','Shamrock','50D4','D'),(7,'11 27 2019','620117676','APPLIANCE','RESOLVED','The refrigerator is leaking','Los Matadores','10B1','B');
 /*!40000 ALTER TABLE `issues` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -230,4 +230,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-27  7:01:03
+-- Dump completed on 2019-11-27 20:34:58
