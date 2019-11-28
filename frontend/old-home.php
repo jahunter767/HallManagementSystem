@@ -45,8 +45,40 @@ if($_SESSION['isLogged'] === FALSE){
       <div class="w-col w-col-6">
         <div class="hero-card">
           <h1>AZ Preston Hall Maintenance System</h1>
-          <h3>&gt;&gt; General Updates</h3>
-          <h5>&quot;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore...”</h5><a href="#" class="btn-outline w-button">Button Text</a></div>
+          <h3>&gt;&gt; All Feedback Messages</h3>
+          <h5>&quot;Pursuing Excellence”</h5>
+          <input type="text" class="w-input" maxlength="256" name="isseue-id" data-name="isseue id" placeholder="Enter issue number" id="feedb-load" style="width: 180px">
+          <a id="load-feedback" class="btn-outline w-button">Load Feedback</a>
+          <?php
+            if($_SERVER['REQUEST_METHOD'] === 'POST'){
+              if(!empty($_POST['issueID'])){
+                $load_feedback = new FeedbackController($data_store);
+                $load_feedback->loadFeedbackFromIssue($_POST['issueID']);
+                $feedback_list = $load_feedback->sendFeedback();
+                ?>
+                <!---->
+                <?php foreach($feedback_list as $feedbackI): ?>
+                  <div class="form-card"> <!---->
+                    <h1>From: <?= $feedbackI->getSender();?></h1>
+                    <h5>Comment: <?= $feedbackI->getComment();?></h5>
+                    <div class="viewissue">
+                      <!--<h6>Issue Number:</h6>-->
+                      <h6>Date Logged: <?= $feedbackI->getDate();?></h6>
+                      <h6>Status: <?= $feedbackI->isRead();?></h6>
+                      <p id="feedback-id" style="display: hidden"></p>
+                      <a href="give-feedback.php">Add feedback</a>
+                    </div>
+                  </div> <!---->
+                <?php endforeach; ?>
+                <!---->
+              <?php
+              #exit("PASSED");
+              } else {
+                exit("<script>alert('Please enter issue number')</script>");
+              }
+            }
+          ?>
+        </div>
       </div>
     </div>
   </div>
@@ -65,7 +97,7 @@ if($_SESSION['isLogged'] === FALSE){
         <a href="#" class="function-card w-inline-block">
           <h3 class="white funcard">Schedule<br>Maintenance</h3>
         </a>
-        <a href="give-feedback.html" class="function-card w-inline-block">
+        <a href="give-feedback.php" class="function-card w-inline-block">
           <h3 class="white funcard">Give Feedback</h3>
         </a>
         <a href="#" class="function-card w-inline-block">

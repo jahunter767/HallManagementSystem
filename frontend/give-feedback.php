@@ -1,3 +1,22 @@
+<?php
+  session_start();
+  require 'backend/classes.php';
+  if($_SESSION['isLogged'] === FALSE){
+    header('Location: index.php');
+  }
+
+  if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    ##SANITIZE WHEN THE TIME COMES (NEVER)
+    if(!empty($_POST['issueID']) && !empty($_POST['ID']) && !empty($_POST['description'])){
+      $add_feedback = new FeedbackController($data_store);
+      $add_feedback->addFeedback($_POST['issueID'], $_POST['description'], $_POST['ID']);
+      exit('PASSED');
+    } else if (empty($_POST['issueID']) || empty($_POST['ID']) || empty($_POST['description'])) {
+      exit('FAILED');
+    }
+  }
+?>
+
 <!DOCTYPE html>
 <!--  This site was created in Webflow. http://www.webflow.com  -->
 <!--  Last Published: Wed Nov 27 2019 21:03:53 GMT+0000 (Coordinated Universal Time)  -->
@@ -5,6 +24,11 @@
 <head>
   <meta charset="utf-8">
   <title>Give Feedback</title>
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+  <script src="azph_hms.js" type="text/javascript"></script>
   <meta content="Give Feedback" property="og:title">
   <meta content="width=device-width, initial-scale=1" name="viewport">
   <meta content="Webflow" name="generator">
@@ -21,7 +45,7 @@
 <body>
   <div data-collapse="medium" data-animation="default" data-duration="400" class="navbar w-nav">
     <div class="w-container">
-      <nav role="navigation" class="w-nav-menu"><a href="#" class="navbtn w-button">Notifications</a></nav><a href="index.html" class="nav-link w-nav-link">Home</a><a href="admin.html" class="nav-link w-nav-link">Admin</a><a href="old-home.html" class="nav-link w-nav-link">Sign Out</a>
+      <nav role="navigation" class="w-nav-menu"><a href="#" class="navbtn w-button">Notifications</a></nav><a href="old-home.php" class="nav-link w-nav-link">Home</a><a href="admin.html" class="nav-link w-nav-link">Admin</a><a href="old-home.html" class="nav-link w-nav-link">Sign Out</a>
       <div class="w-nav-button">
         <div class="w-icon-nav-menu"></div>
       </div>
@@ -35,7 +59,7 @@
           <h5>Give Feedback</h5>
           <div class="form w-form">
             <form id="email-form" name="email-form" data-name="Email Form" class="w-clearfix"><input type="text" class="w-input" maxlength="256" name="isseue-id" data-name="isseue id" placeholder="Enter issue number" id="isseue-id" required=""><input type="text" class="w-input" maxlength="256" name="ID-number" data-name="ID number" placeholder="Enter id number" id="ID-number" required=""><label for="Issue-description-2">Comment</label><input type="text" class="description-field w-input" maxlength="256" name="Issue-description" data-name="Issue description" placeholder="feedback" id="Issue-description" required="">
-              <h6>All Fields are Mandatory</h6><input type="submit" value="Submit" data-wait="Please wait..." class="btn-filled blue w-button"></form>
+              <h6>All Fields are Mandatory</h6><input id="give-feedback" type="submit" value="Submit" data-wait="Please wait..." class="btn-filled blue w-button"></form>
             <div class="w-form-done">
               <div>Thank you! Your submission has been received!</div>
             </div>

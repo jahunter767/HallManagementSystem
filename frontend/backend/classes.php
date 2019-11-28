@@ -523,7 +523,7 @@ class FeedbackController {
     public function __construct($database){
         $this->database = $database->dataBank();
         $this->raw_database = $database;
-        $this->$feedback = [];
+        $this->feedback = [];
     }
 
     public function addFeedback($issueID, $comment, $HMemberIDnum){
@@ -820,3 +820,22 @@ $issues = $viewIssues->viewIssuesByHallMemberID('620117676');
 
 <php
 */
+
+/*$load_feedback = new FeedbackController($data_store);
+$load_feedback->loadFeedbackFromIssue(7);
+$feedback_list = $load_feedback->sendFeedback();
+?>
+<!---->
+<?php foreach($feedback_list as $feedbackI): ?>
+    <div class="form-card"> <!---->
+    <h1>From: <?= $feedbackI->getSender();?></h1>
+    <h5>Comment: <?= $feedbackI->getComment();?></h5>
+    <div class="viewissue">
+        <!--<h6>Issue Number:</h6>-->
+        <h6>Date Logged: <?= $feedbackI->getDate();?></h6>
+        <h6>Status: <?= $feedbackI->isRead();?></h6>
+        <p id="feedback-id" style="display: hidden"></p>
+        <a href="give-feedback.php">Add feedback</a>
+    </div>
+    </div> <!---->
+<?php endforeach; ?>*/
